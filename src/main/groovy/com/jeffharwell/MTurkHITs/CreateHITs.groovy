@@ -12,15 +12,17 @@ import com.amazonaws.mturk.requester.QualificationRequirement;
 class CreateHITs {
 
     private RequesterService service;
+    private prop
 
     CreateHITs() {
         service = new RequesterService(new PropertiesClientConfig("mturk.properties"));
+        prop = new ConfigSlurper().parse(new File("question.properties").toURL())
     }
 
     boolean hasEnoughFund() {
         def balance = service.getAccountBalance()
         println("Got account balance: ${RequesterService.formatCurrency(balance)}")
-        return balance > reward;
+        return balance > prop["reward"].toDouble();
     }
 
 
@@ -40,7 +42,6 @@ class CreateHITs {
         QualificationRequirement[] qualReqs = [ qualReq ] as QualificationRequirement[]
 
         HITQuestion question = new HITQuestion("external_question.xml")
-        def prop = new ConfigSlurper().parse(new File("question.properties").toURL())
         try {
             HIT hit = service.createHIT(null, // HITTypeId 
                 prop["title"],
