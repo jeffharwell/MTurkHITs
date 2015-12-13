@@ -8,16 +8,10 @@ import com.amazonaws.mturk.addon.HITQuestion;
 import com.amazonaws.mturk.requester.Comparator;
 import com.amazonaws.mturk.requester.Locale;
 import com.amazonaws.mturk.requester.QualificationRequirement;
-//import org.apache.log4j.Category;
-//import org.apache.log4j.BasicConfigurator;
 
 class CreateHITs {
 
     private RequesterService service;
-    private String title = "Answer another question";
-    private String description = "This is another HIT created by my Groovy code!!"
-    private int numAssignments = 1
-    private double reward = 0.05
 
     CreateHITs() {
         service = new RequesterService(new PropertiesClientConfig("mturk.properties"));
@@ -44,11 +38,9 @@ class CreateHITs {
         // The create HIT method takes in an array of QualificationRequirements
         // since a HIT can have multiple qualifications.
         QualificationRequirement[] qualReqs = [ qualReq ] as QualificationRequirement[]
-        // qualReqs = new QualificationRequirement[] { qualReq };
 
         HITQuestion question = new HITQuestion("external_question.xml")
         def prop = new ConfigSlurper().parse(new File("question.properties").toURL())
-        println prop["title"]
         try {
             HIT hit = service.createHIT(null, // HITTypeId 
                 prop["title"],
@@ -63,15 +55,6 @@ class CreateHITs {
                 null // responseGroup
             );
 
-            /*
-            HIT hit = service.createHIT(
-                title,
-                description,
-                reward,
-                RequesterService.getBasicFreeTextQuestion(
-                    "My test question?"),numAssignments);
-            */
-
             println "Created HIT: ${hit.getHITId()}"
 
             println "You may see your HIT with HITTypeId: ${hit.getHITTypeId()} here"
@@ -82,8 +65,6 @@ class CreateHITs {
     }
 
     public static void main(String[] args) {
-        //BasicConfigurator.configure()
-
         CreateHITs mthit = new CreateHITs()
 
         if (mthit.hasEnoughFund()) {

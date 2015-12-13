@@ -18,6 +18,10 @@ jar {
     }
 }
 
+
+// Note: the mturk Java API is not compatible with the latest
+//       version of Apache Velocity, 1.5 is the last version
+//       available in Maven that works
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.5',
             'org.junit:junit-4.12',
