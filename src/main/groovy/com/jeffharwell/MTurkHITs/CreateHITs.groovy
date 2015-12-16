@@ -30,16 +30,29 @@ class CreateHITs {
 
         // This is an example of creating a qualification.
         // This is a built-in qualification -- user must be based in the US
+
+        /*
         QualificationRequirement qualReq = new QualificationRequirement();
         qualReq.setQualificationTypeId(RequesterService.LOCALE_QUALIFICATION_TYPE_ID);
         qualReq.setComparator(Comparator.EqualTo);
         Locale country = new Locale();
         country.setCountry("US");
         qualReq.setLocaleValue(country);
+        */
+
+        QualificationRequirement qualReq = new QualificationRequirement();
+        qualReq.setQualificationTypeId(RequesterService.APPROVAL_RATE_QUALIFICATION_TYPE_ID);
+        qualReq.setComparator(Comparator.GreaterThanOrEqualTo);
+        qualReq.setIntegerValue(90);
+
+        QualificationRequirement qualReq2 = new QualificationRequirement();
+        qualReq2.setQualificationTypeId(RequesterService.SUBMISSION_RATE_QUALIFICATION_TYPE_ID);
+        qualReq2.setComparator(Comparator.GreaterThanOrEqualTo);
+        qualReq2.setIntegerValue(10);
 
         // The create HIT method takes in an array of QualificationRequirements
         // since a HIT can have multiple qualifications.
-        QualificationRequirement[] qualReqs = [ qualReq ] as QualificationRequirement[]
+        QualificationRequirement[] qualReqs = [ qualReq, qualReq2 ] as QualificationRequirement[]
 
         HITQuestion question = new HITQuestion("external_question.xml")
         try {
